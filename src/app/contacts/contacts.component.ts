@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
+import { ContactService } from '../contact.service';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.css']
+  styleUrls: ['./contacts.component.css'],
+  providers: [ContactService]
 })
+
 export class ContactsComponent {
-  contacts = [
-    { id: 1, name: 'Ti', phoneNumber: '09876543355' },
-    { id: 2, name: 'Teo', phoneNumber: '0964567876' },
-    { id: 3, name: 'Tun', phoneNumber: '02345675876' },
-  ];
+  contacts = [];
+  constructor(private contactService: ContactService) {
+    this.contactService.getAll()
+    .then(contacts => this.contacts = contacts)
+    .catch(err => console.log(err.message));
+  }
 }
